@@ -1,0 +1,86 @@
+@page
+@model TrashModel
+@{
+    ViewData["Title"] = "Trash";
+}
+
+<div class="notes-container">
+    <div class="notes-header">
+        <div class="header-content">
+            <h1 class="notes-title pixel-font">
+                <i class="fas fa-trash"></i>
+                Trash
+            </h1>
+            <div class="trash-actions">
+                @if (Model.DeletedNotes.Any())
+                {
+                    <button type="button" class="btn btn-danger empty-trash-btn pixel-btn" onclick="emptyTrash()">
+                        <i class="fas fa-trash-alt"></i> Empty Trash
+                    </button>
+                }
+                <a asp-page="/Notes" class="btn btn-primary pixel-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Notes
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @if (!Model.DeletedNotes.Any())
+    {
+        <div class="empty-state">
+            <i class="fas fa-trash"></i>
+            <h3>Trash is Empty</h3>
+            <p>Deleted notes will appear here. You can restore them within 30 days.</p>
+            <a asp-page="/Notes" class="btn btn-primary pixel-btn">
+                <i class="fas fa-plus"></i> Create New Note
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="trash-info">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <strong>@Model.DeletedNotes.Count</strong> note(s) in trash. Notes will be permanently deleted after 30 days.
+            </div>
+        </div>
+
+        <div class="notes-grid" id="trashGrid">
+            @foreach (var note in Model.DeletedNotes)
+            {
+                <div class="note-card pixel-card deleted" data-note-id="@note.Id" style="background-color: @note.Color">
+                    <div class="deleted-indicator">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                    
+                    <div class="note-header">
+                        <h5 class="note-title pixel-text">@note.Title</h5>
+                        <div class="note-actions">
+                            <button class="btn-action pixel-action restore-btn" onclick="restoreNote(@note.Id)" title="Restore">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                            <button class="btn-action pixel-action permanent-delete-btn" onclick="permanentlyDeleteNote(@note.Id)" title="Delete Forever">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="note-content pixel-text">
+                        @note.Content
+                    </div>
+                    
+                    <div class="note-footer">
+                        <small class="text-muted pixel-small">
+                            Deleted: @note.DeletedAt?.ToString("MMM dd, yyyy HH:mm")
+                        </small>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <script src="~/js/trash.js"></script>
+}

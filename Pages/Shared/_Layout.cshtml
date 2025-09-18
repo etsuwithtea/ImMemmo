@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ImMemmo</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/notes.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ImMemmo.styles.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar pixel-navbar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand pixel-brand" asp-area="" asp-page="/Notes">
+                        <span class="brand-icon">📝</span>
+                        <span class="brand-text">ImMemmo</span>
+                    </a>
+                    <button class="navbar-toggler pixel-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="pixel-toggler-icon">☰</span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav pixel-nav vertical-nav">
+                        <li class="nav-item">
+                            <a class="nav-link pixel-nav-link @(ViewContext.RouteData.Values["page"]?.ToString() == "/Notes" ? "active" : "")" asp-area="" asp-page="/Notes">
+                                <span class="nav-icon">🏠</span>
+                                <span class="nav-text">Notes</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pixel-nav-link @(ViewContext.RouteData.Values["page"]?.ToString() == "/Trash" ? "active" : "")" asp-area="" asp-page="/Trash">
+                                <span class="nav-icon">🗑️</span>
+                                <span class="nav-text">Trash</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pixel-nav-link @(ViewContext.RouteData.Values["page"]?.ToString() == "/Privacy" ? "active" : "")" asp-area="" asp-page="/Privacy">
+                                <span class="nav-icon">🛡️</span>
+                                <span class="nav-text">Privacy</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid pixel-container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="pixel-footer">
+        <div class="container">
+            <div class="footer-content">
+                <span class="footer-text">© 2568 - ImMemmo</span>
+                <a asp-area="" asp-page="/Privacy" class="footer-link">Privacy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

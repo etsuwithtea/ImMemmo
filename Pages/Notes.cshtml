@@ -1,0 +1,178 @@
+@page
+@model NotesModel
+@{
+    ViewData["Title"] = "My Notes";
+}
+
+<div class="notes-container">
+    <div class="notes-header">
+        <div class="header-content">
+            <h1 class="notes-title pixel-font">
+                <i class="fas fa-sticky-note"></i>
+                My Notes
+            </h1>
+            <div class="header-actions">
+                <a asp-page="/Trash" class="btn btn-outline-secondary trash-btn pixel-btn">
+                    <i class="fas fa-trash"></i>
+                    Trash
+                    @if (Model.TrashCount > 0)
+                    {
+                        <span class="trash-count">@Model.TrashCount</span>
+                    }
+                </a>
+                <button type="button" class="btn btn-primary add-note-btn pixel-btn" data-bs-toggle="modal" data-bs-target="#noteModal">
+                    <i class="fas fa-plus"></i> Add Note
+                </button>
+            </div>
+        </div>
+        <div class="search-container">
+            <input type="text" id="searchInput" class="form-control search-input pixel-input" placeholder="Search notes...">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+    </div>
+
+    @if (!Model.Notes.Any())
+    {
+        <div class="empty-state">
+            <i class="fas fa-sticky-note"></i>
+            <h3>No Notes Yet</h3>
+            <p>Create your first note to get started!</p>
+            <button type="button" class="btn btn-primary pixel-btn" data-bs-toggle="modal" data-bs-target="#noteModal">
+                <i class="fas fa-plus"></i> Create First Note
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="notes-grid" id="notesGrid">
+            @foreach (var note in Model.Notes)
+            {
+                <div class="note-card pixel-card @(note.IsPinned ? "pinned" : "")" data-note-id="@note.Id" style="background-color: @note.Color">
+                    @if (note.IsPinned)
+                    {
+                        <div class="pin-indicator pixel-indicator">
+                            <i class="fas fa-thumbtack"></i>
+                        </div>
+                    }
+                    
+                    <div class="note-header">
+                        <h5 class="note-title pixel-text">@note.Title</h5>
+                        <div class="note-actions">
+                            <button class="btn-action pixel-action pin-btn" onclick="togglePin(@note.Id)" title="@(note.IsPinned ? "Unpin" : "Pin")">
+                                <i class="fas fa-thumbtack @(note.IsPinned ? "pinned" : "")"></i>
+                            </button>
+                            <button class="btn-action pixel-action edit-btn" onclick="editNote(@note.Id)" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-action pixel-action delete-btn" onclick="deleteNote(@note.Id)" title="Move to Trash">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="note-content pixel-text">
+                        @note.Content
+                    </div>
+                    
+                    <div class="note-footer">
+                        <small class="text-muted pixel-small">
+                            @note.UpdatedAt.ToString("MMM dd, yyyy HH:mm")
+                        </small>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<!-- Note Modal -->
+<div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content pixel-modal">
+            <form method="post" asp-page-handler="SaveNote">
+                <div class="modal-header pixel-header">
+                    <h5 class="modal-title pixel-font" id="noteModalLabel">Add New Note</h5>
+                    <button type="button" class="btn-close pixel-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pixel-body">
+                    <input type="hidden" asp-for="CurrentNote.Id" id="noteId" />
+                    
+                    <div class="mb-3">
+                        <label asp-for="CurrentNote.Title" class="form-label pixel-label">Title</label>
+                        <input asp-for="CurrentNote.Title" class="form-control pixel-input" id="noteTitle" required />
+                        <span asp-validation-for="CurrentNote.Title" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="CurrentNote.Content" class="form-label pixel-label">Content</label>
+                        <textarea asp-for="CurrentNote.Content" class="form-control pixel-textarea" rows="5" id="noteContent" required></textarea>
+                        <span asp-validation-for="CurrentNote.Content" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label pixel-label">Choose Your Pixel Theme</label>
+                        <div class="color-palette pixel-palette">
+                            <!-- Sage Green -->
+                            <input type="radio" asp-for="CurrentNote.Color" value="#7A8B7A" id="color1" />
+                            <label for="color1" class="color-option pixel-color sage" style="background-color: #7A8B7A;" title="Sage Green">
+                                <span class="pixel-icon">??</span>
+                            </label>
+                            
+                            <!-- Olive Green -->
+                            <input type="radio" asp-for="CurrentNote.Color" value="#8B9A8B" id="color2" />
+                            <label for="color2" class="color-option pixel-color olive" style="background-color: #8B9A8B;" title="Olive Green">
+                                <span class="pixel-icon">??</span>
+                            </label>
+                            
+                            <!-- Ash Gray -->
+                            <input type="radio" asp-for="CurrentNote.Color" value="#B5B5B5" id="color3" />
+                            <label for="color3" class="color-option pixel-color ash" style="background-color: #B5B5B5;" title="Ash Gray">
+                                <span class="pixel-icon">??</span>
+                            </label>
+                            
+                            <!-- Dusty Rose -->
+                            <input type="radio" asp-for="CurrentNote.Color" value="#D4B5B5" id="color4" />
+                            <label for="color4" class="color-option pixel-color rose" style="background-color: #D4B5B5;" title="Dusty Rose">
+                                <span class="pixel-icon">??</span>
+                            </label>
+                            
+                            <!-- Cream Beige -->
+                            <input type="radio" asp-for="CurrentNote.Color" value="#E8D5C4" id="color5" />
+                            <label for="color5" class="color-option pixel-color cream" style="background-color: #E8D5C4;" title="Cream Beige">
+                                <span class="pixel-icon">??</span>
+                            </label>
+                            
+                            <!-- Pixel Blue -->
+                            <input type="radio" asp-for="CurrentNote.Color" value="#6B8CAE" id="color6" />
+                            <label for="color6" class="color-option pixel-color blue" style="background-color: #6B8CAE;" title="Pixel Blue">
+                                <span class="pixel-icon">??</span>
+                            </label>
+                            
+                            <!-- Retro Purple -->
+                            <input type="radio" asp-for="CurrentNote.Color" value="#9B7EAE" id="color7" />
+                            <label for="color7" class="color-option pixel-color purple" style="background-color: #9B7EAE;" title="Retro Purple">
+                                <span class="pixel-icon">??</span>
+                            </label>
+                            
+                            <!-- Vintage Yellow -->
+                            <input type="radio" asp-for="CurrentNote.Color" value="#E8D08A" id="color8" />
+                            <label for="color8" class="color-option pixel-color yellow" style="background-color: #E8D08A;" title="Vintage Yellow">
+                                <span class="pixel-icon">?</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer pixel-footer">
+                    <button type="button" class="btn btn-secondary pixel-btn" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary pixel-btn">Save Note</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="~/js/notes.js"></script>
+}
