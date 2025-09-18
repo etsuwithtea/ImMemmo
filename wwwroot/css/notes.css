@@ -3,13 +3,20 @@
 /* Import Pixel Font */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-/* Pixel Navbar Styles */
+/* Pixel Navbar Styles - Horizontal Layout */
 .pixel-navbar {
     background: #7A8B7A;
     border-bottom: 4px solid #2c3e50;
     padding: 15px 0;
     box-shadow: 0 4px 0px #5a6b5a;
     position: relative;
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 .pixel-brand {
@@ -42,6 +49,68 @@
     letter-spacing: 2px;
 }
 
+/* Horizontal Navigation for Desktop */
+.navbar-nav-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.horizontal-nav {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pixel-nav-link {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: #E8D5C4;
+    text-decoration: none;
+    padding: 12px 20px;
+    border: 2px solid #2c3e50;
+    background: rgba(44, 62, 80, 0.8);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 3px 3px 0px #5a6b5a;
+    white-space: nowrap;
+}
+
+.pixel-nav-link:hover {
+    color: #E8D5C4;
+    background: #2c3e50;
+    border-color: #E8D5C4;
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px #E8D5C4;
+}
+
+.pixel-nav-link.active {
+    color: #2c3e50;
+    background: #E8D5C4;
+    border-color: #2c3e50;
+    box-shadow: inset 3px 3px 0px #D4B5B5;
+    transform: translate(2px, 2px);
+}
+
+.nav-icon {
+    font-size: 1.2rem;
+    min-width: 20px;
+}
+
+.nav-text {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* Mobile Toggle Button */
 .pixel-toggler {
     background: #E8D5C4;
     border: 3px solid #2c3e50;
@@ -49,6 +118,7 @@
     padding: 8px 12px;
     font-family: 'Press Start 2P', cursive;
     color: #2c3e50;
+    display: none;
 }
 
 .pixel-toggler:focus {
@@ -60,49 +130,96 @@
     font-size: 1.2rem;
 }
 
-.pixel-nav {
-    display: flex;
-    gap: 5px;
-    align-items: center;
-}
-
-.pixel-nav-link {
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-    color: #E8D5C4;
-    text-decoration: none;
-    padding: 10px 15px;
-    border: 2px solid transparent;
-    background: rgba(44, 62, 80, 0.7);
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
+/* Mobile Navigation (Hidden by Default) */
+.mobile-nav {
+    display: none;
+    flex-direction: column;
     gap: 8px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    width: 100%;
+    padding: 15px 0;
+    margin-top: 15px;
+    border-top: 3px solid #2c3e50;
 }
 
-.pixel-nav-link:hover {
-    color: #E8D5C4;
-    background: #2c3e50;
-    border-color: #E8D5C4;
-    transform: translate(-1px, -1px);
-    box-shadow: 1px 1px 0px #E8D5C4;
+.mobile-nav .pixel-nav-link {
+    width: 100%;
+    justify-content: center;
 }
 
-.pixel-nav-link.active {
-    color: #2c3e50;
-    background: #E8D5C4;
-    border-color: #2c3e50;
-    box-shadow: inset 2px 2px 0px #D4B5B5;
+/* Responsive Design */
+@media (max-width: 991.98px) {
+    .navbar-nav-container {
+        display: none;
+    }
+    
+    .pixel-toggler {
+        display: block;
+    }
+    
+    .navbar-collapse.show .mobile-nav,
+    .navbar-collapse.collapsing .mobile-nav {
+        display: flex;
+    }
 }
 
-.nav-icon {
-    font-size: 1.1rem;
+@media (max-width: 768px) {
+    .pixel-navbar {
+        padding: 10px 0;
+    }
+    
+    .pixel-brand {
+        font-size: 1rem;
+        padding: 6px 10px;
+    }
+    
+    .brand-icon {
+        font-size: 1.2rem;
+    }
+    
+    .mobile-nav .pixel-nav-link {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .mobile-nav .nav-icon {
+        font-size: 1.1rem;
+    }
+    
+    .mobile-nav .nav-text {
+        font-size: 0.9rem;
+    }
 }
 
-.nav-text {
-    font-size: 0.9rem;
+/* Tablet Adjustment */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .horizontal-nav {
+        gap: 10px;
+    }
+    
+    .pixel-nav-link {
+        padding: 10px 15px;
+        font-size: 0.8rem;
+    }
+    
+    .nav-text {
+        font-size: 0.8rem;
+    }
+}
+
+/* Large Desktop Optimization */
+@media (min-width: 1200px) {
+    .horizontal-nav {
+        gap: 20px;
+    }
+    
+    .pixel-nav-link {
+        padding: 15px 25px;
+        font-size: 1rem;
+    }
+    
+    .nav-text {
+        font-size: 1rem;
+    }
 }
 
 /* Pixel Footer */
@@ -635,90 +752,6 @@
 .note-card.deleted:hover {
     opacity: 1;
     box-shadow: 8px 8px 0px #D4B5B5;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .pixel-container {
-        background-size: 20px 20px;
-        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-    }
-    
-    .pixel-navbar {
-        padding: 10px 0;
-    }
-    
-    .pixel-brand {
-        font-size: 1rem;
-        padding: 6px 10px;
-    }
-    
-    .brand-icon {
-        font-size: 1.2rem;
-    }
-    
-    .pixel-nav {
-        flex-direction: column;
-        gap: 8px;
-        width: 100%;
-        padding: 10px 0;
-    }
-    
-    .pixel-nav-link {
-        justify-content: center;
-        width: 100%;
-        margin: 2px 0;
-    }
-    
-    .notes-container {
-        padding: 15px;
-    }
-    
-    .header-content {
-        flex-direction: column;
-        gap: 15px;
-        align-items: stretch;
-    }
-    
-    .header-actions {
-        justify-content: center;
-    }
-    
-    .pixel-font {
-        font-size: 1.2rem;
-        text-align: center;
-    }
-    
-    .notes-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .note-actions {
-        opacity: 1;
-    }
-    
-    .pixel-palette {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        padding: 15px;
-    }
-    
-    .pixel-color {
-        width: 50px;
-        height: 50px;
-        font-size: 16px;
-    }
-    
-    .pixel-icon {
-        font-size: 16px;
-    }
-    
-    .footer-content {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-    }
 }
 
 /* Empty State */
