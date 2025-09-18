@@ -38,12 +38,29 @@
                         </ul>
                     </div>
                     
-                    <button class="navbar-toggler pixel-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    <button class="navbar-toggler pixel-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavbar" aria-controls="mobileNavbar"
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="pixel-toggler-icon">☰</span>
                     </button>
                 </div>
                 
+                <!-- Mobile Menu -->
+                <div class="navbar-collapse collapse" id="mobileNavbar">
+                    <ul class="navbar-nav pixel-nav mobile-nav">
+                        <li class="nav-item">
+                            <a class="nav-link pixel-nav-link @(ViewContext.RouteData.Values["page"]?.ToString() == "/Notes" ? "active" : "")" asp-area="" asp-page="/Notes">
+                                <span class="nav-icon">🏠</span>
+                                <span class="nav-text">Notes</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pixel-nav-link @(ViewContext.RouteData.Values["page"]?.ToString() == "/Trash" ? "active" : "")" asp-area="" asp-page="/Trash">
+                                <span class="nav-icon">🗑️</span>
+                                <span class="nav-text">Trash</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
     </header>

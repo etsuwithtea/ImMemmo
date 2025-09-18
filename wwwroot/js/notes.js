@@ -1,5 +1,54 @@
 // Notes App JavaScript
 
+// Mobile Navigation Toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    const mobileNavbar = document.getElementById('mobileNavbar');
+    
+    if (navbarToggler && mobileNavbar) {
+        navbarToggler.addEventListener('click', function() {
+            // Toggle the show class
+            mobileNavbar.classList.toggle('show');
+            
+            // Update aria-expanded attribute
+            const isExpanded = mobileNavbar.classList.contains('show');
+            navbarToggler.setAttribute('aria-expanded', isExpanded);
+            
+            // Add pixel art animation to toggler
+            if (isExpanded) {
+                navbarToggler.style.transform = 'translate(2px, 2px)';
+                navbarToggler.style.boxShadow = '1px 1px 0px #2c3e50';
+            } else {
+                navbarToggler.style.transform = '';
+                navbarToggler.style.boxShadow = '';
+            }
+        });
+        
+        // Close mobile menu when clicking on nav links
+        const mobileNavLinks = mobileNavbar.querySelectorAll('.pixel-nav-link');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileNavbar.classList.remove('show');
+                navbarToggler.setAttribute('aria-expanded', false);
+                navbarToggler.style.transform = '';
+                navbarToggler.style.boxShadow = '';
+            });
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const isClickInsideNav = mobileNavbar.contains(event.target) || navbarToggler.contains(event.target);
+            
+            if (!isClickInsideNav && mobileNavbar.classList.contains('show')) {
+                mobileNavbar.classList.remove('show');
+                navbarToggler.setAttribute('aria-expanded', false);
+                navbarToggler.style.transform = '';
+                navbarToggler.style.boxShadow = '';
+            }
+        });
+    }
+});
+
 // Search functionality
 document.getElementById('searchInput')?.addEventListener('input', function(e) {
     const searchTerm = e.target.value.toLowerCase();
@@ -144,10 +193,20 @@ document.addEventListener('keydown', function(e) {
         if (modal) {
             modal.hide();
         }
+        
+        // Also close mobile menu if open
+        const mobileNavbar = document.getElementById('mobileNavbar');
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        if (mobileNavbar && mobileNavbar.classList.contains('show')) {
+            mobileNavbar.classList.remove('show');
+            navbarToggler.setAttribute('aria-expanded', false);
+            navbarToggler.style.transform = '';
+            navbarToggler.style.boxShadow = '';
+        }
     }
 });
 
-// Toast notification function
+// Toast notification function with pixel art styling
 function showToast(message, type = 'info') {
     // Create toast container if it doesn't exist
     let toastContainer = document.getElementById('toast-container');
@@ -161,41 +220,46 @@ function showToast(message, type = 'info') {
         document.body.appendChild(toastContainer);
     }
     
-    // Create toast element
+    // Create toast element with pixel art styling
     const toast = document.createElement('div');
     toast.className = `toast-notification toast-${type}`;
     toast.innerHTML = `
         <div class="toast-content">
-            <i class="fas fa-${type === 'success' ? 'check' : 'info'}-circle"></i>
+            <span>${type === 'success' ? '?' : '?'}</span>
             <span>${message}</span>
         </div>
     `;
     
-    // Add styles
+    // Add pixel art styles
     toast.style.cssText = `
-        background: ${type === 'success' ? '#28a745' : '#17a2b8'};
+        background: ${type === 'success' ? '#7A8B7A' : '#6B8CAE'};
         color: white;
         padding: 12px 20px;
-        border-radius: 8px;
+        border: 3px solid #2c3e50;
         margin-bottom: 10px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        box-shadow: 4px 4px 0px #2c3e50;
         transform: translateX(100%);
-        transition: transform 0.3s ease;
+        transition: all 0.3s ease;
         display: flex;
         align-items: center;
         gap: 10px;
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+        font-size: 14px;
     `;
     
     toastContainer.appendChild(toast);
     
-    // Animate in
+    // Animate in with pixel art effect
     setTimeout(() => {
-        toast.style.transform = 'translateX(0)';
+        toast.style.transform = 'translateX(-4px) translateY(-4px)';
+        toast.style.boxShadow = '6px 6px 0px #2c3e50';
     }, 100);
     
-    // Remove after 3 seconds
+    // Remove after 3 seconds with pixel art animation
     setTimeout(() => {
         toast.style.transform = 'translateX(100%)';
+        toast.style.boxShadow = '4px 4px 0px #2c3e50';
         setTimeout(() => {
             if (toast.parentNode) {
                 toast.parentNode.removeChild(toast);
