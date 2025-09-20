@@ -21,6 +21,7 @@ namespace ImMemmo.Services
                 Title = "Meeting Notes", 
                 Content = "Discuss project timeline, review requirements, and assign tasks to team members.",
                 Color = "#D4B5B5",
+                IsPinned = true,
                 CreatedAt = DateTime.Now.AddHours(-3)
             },
             new Note 
@@ -29,6 +30,7 @@ namespace ImMemmo.Services
                 Title = "Shopping List", 
                 Content = "Milk, Bread, Eggs, Fruits, Vegetables, Chicken, Rice",
                 Color = "#E8D5C4",
+                IsPinned = false,
                 CreatedAt = DateTime.Now.AddMinutes(-30)
             }
         };

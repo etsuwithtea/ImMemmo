@@ -26,13 +26,13 @@
                             <li class="nav-item">
                                 <a class="nav-link pixel-nav-link @(ViewContext.RouteData.Values["page"]?.ToString() == "/Notes" ? "active" : "")" asp-area="" asp-page="/Notes">
                                     <span class="nav-icon">🏠</span>
-                                    <span class="nav-text">Notes</span>
+                                    <span class="nav-text pixel-font">Notes</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link pixel-nav-link @(ViewContext.RouteData.Values["page"]?.ToString() == "/Trash" ? "active" : "")" asp-area="" asp-page="/Trash">
                                     <span class="nav-icon">🗑️</span>
-                                    <span class="nav-text">Trash</span>
+                                    <span class="nav-text pixel-font">Trash</span>
                                 </a>
                             </li>
                         </ul>
