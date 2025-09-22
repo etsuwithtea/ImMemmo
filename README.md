@@ -50,17 +50,4 @@ ImMemmo คือเว็ปแอปพลิเคชันเว็บสำ
 ![ImMemo_4](wwwroot/images/ImMemo_4.png)
 ---
 
-## 🎯 จุดประสงค์ของโปรเจค (Project Purpose)
-
-โปรเจคนี้สร้างขึ้นเพื่อฝึกฝนและทดลองใช้เทคโนโลยี ASP.NET, การจัดการ Local Storage ฝั่ง Frontend ตลอดจนออกแบบ UX/UI แนวเกม  
-เหมาะสำหรับใช้เป็นต้นแบบ (template) หรือศึกษาแนวทางการพัฒนาเว็บแอปพลิเคชัน
-
----
-
-## 📄 License
-
-Distributed under the [MIT License](LICENSE).
-
----
-
 > ✍️ **ขอให้สนุกกับการจดบันทึก! (Happy note-taking!)** 🎉
